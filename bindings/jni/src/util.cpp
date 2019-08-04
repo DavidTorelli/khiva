@@ -20,9 +20,10 @@ void check_and_retain_arrays(af_array &a, af_array &b, af::array &var_a, af::arr
     }
 }
 
-void check_and_fill_error(JNIEnv *env, const char *reason, char* err);
+void check_and_fill_error(JNIEnv *env, const char *reason, jobject* err);
     if(err != NULL) {
-        jbyte* buff = (*env)->GetDirectBufferAddress(env, err);
-        // TODO: encode string into direct buffer 
+        char* buff = (char*)((*env)->GetDirectBufferAddress(env, err);
+        jlong len = ((*env)->GetDirectBufferAddress(env, err);
+        strncpy(buff, len, reason);
     }
 }
