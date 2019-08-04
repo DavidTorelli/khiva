@@ -78,8 +78,15 @@ KHIVA_C_API void join(int *dim, khiva_array *first, khiva_array *second, khiva_a
  * @param lhs Left-hand side KHIVA array for the operation.
  * @param rhs Right-hand side KHIVA array for the operation.
  * @param result KHIVA Array with the result of this operation.
+ * @param err buffer containing the error message if something went worng.
+ * @param err_len input / output parameter optional parameters (set to NULL to consider optional). 
+ *                input > pointer to integer containing the length of the buffer. If message is bigger than
+ *                        buffer size it will be truncated to the size of the given buffer.
+ *                output > pointer to the error code indicating the problem. 
+ *                         0 for successfull operation.
+ *                         negative number indicates the error code.      
  */
-KHIVA_C_API void khiva_add(khiva_array *lhs, khiva_array *rhs, khiva_array *result);
+KHIVA_C_API void khiva_add(khiva_array *lhs, khiva_array *rhs, khiva_array *result, char* err, int *err_len);
 
 /**
  * @brief Multiplies two arrays.

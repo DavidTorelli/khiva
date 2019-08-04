@@ -275,30 +275,37 @@ jlongArray JNICALL Java_io_shapelets_khiva_Array_join(JNIEnv *env, jobject thisO
     return p;
 }
 
-jlongArray JNICALL Java_io_shapelets_khiva_Array_add(JNIEnv *env, jobject thisObj, jlong ref_rhs) {
-    jclass clazz = env->GetObjectClass(thisObj);
-    jfieldID fidf = env->GetFieldID(clazz, "reference", "J");
-    jlong ref = env->GetLongField(thisObj, fidf);
+jlongArray JNICALL Java_io_shapelets_khiva_Array_add(JNIEnv *env, jobject thisObj, jlong ref_rhs, jobject err)) {
+    try {
+        jclass clazz = env->GetObjectClass(thisObj);
+        jfieldID fidf = env->GetFieldID(clazz, "reference", "J");
+        jlong ref = env->GetLongField(thisObj, fidf);
 
-    af_array lhs = (af_array)ref;
-    af::array a;
-    af_array rhs = (af_array)ref_rhs;
-    af::array b;
+        af_array lhs = (af_array)ref;
+        af::array a;
+        af_array rhs = (af_array)ref_rhs;
+        af::array b;
 
-    check_and_retain_arrays(lhs, rhs, a, b);
-    af::array c = a + b;
-    jlong raw_pointer = 0;
-    af_array af_p = (af_array)raw_pointer;
+        check_and_retain_arrays(lhs, rhs, a, b);
+        af::array c = a + b;
+        jlong raw_pointer = 0;
+        af_array af_p = (af_array)raw_pointer;
 
-    af_retain_array(&af_p, c.get());
+        af_retain_array(&af_p, c.get());
 
-    env->SetLongField(thisObj, fidf, jlong(lhs));
+        env->SetLongField(thisObj, fidf, jlong(lhs));
 
-    jlong result[] = {(jlong)rhs, (jlong)af_p};
-    jlongArray p = env->NewLongArray(2);
-    env->SetLongArrayRegion(p, 0, 2, &result[0]);
+        jlong result[] = {(jlong)rhs, (jlong)af_p};
+        jlongArray p = env->NewLongArray(2);
+        env->SetLongArrayRegion(p, 0, 2, &result[0]);
 
-    return p;
+        return p;
+    } catch(const std::exception& stde){
+        check_and_fill_error(env, stde.what(), err);
+    } catch(...) {
+        check_and_fill_error(env, "Error when adding arrays. Unknown reason", err);
+    }
+    return NULL;
 }
 
 jlongArray JNICALL Java_io_shapelets_khiva_Array_mul(JNIEnv *env, jobject thisObj, jlong ref_rhs) {

@@ -6,6 +6,7 @@
 
 #include <arrayfire.h>
 #include <khiva_c/util.h>
+#include <stdio.h>
 
 void check_and_retain_arrays(khiva_array *a, khiva_array *b, af::array &var_a, af::array &var_b) {
     if (a == b) {
@@ -19,3 +20,11 @@ void check_and_retain_arrays(khiva_array *a, khiva_array *b, af::array &var_a, a
         af_retain_array(b, var_b.get());
     }
 }
+
+void check_and_fill_error(const char *reason, int err_code, char* err, int *err_len);
+    if(err != NULL && err_len != NULL && *err_len > 0) {
+        snprintf(err, *err_len, "Error when adding array. Reason: %s", reason);
+        *err_len = err_code;
+    }
+}
+

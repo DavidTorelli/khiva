@@ -125,10 +125,11 @@ JNIEXPORT jlongArray JNICALL Java_io_shapelets_khiva_Array_join(JNIEnv *env, job
  * @brief Adds this array with the one specified as parameter.
  *
  * @param ref_rhs Reference to the right-hand side array for the operation.
+ * @param err buffer containing a null terminated error message in case of error.
  *
  * @return The updated reference of the right-hand side array and the reference of the resulting array.
  */
-JNIEXPORT jlongArray JNICALL Java_io_shapelets_khiva_Array_add(JNIEnv *env, jobject thisObj, jlong ref_rhs);
+JNIEXPORT jlongArray JNICALL Java_io_shapelets_khiva_Array_add(JNIEnv *env, jobject thisObj, jlong ref_rhs, jobject err);
 
 /**
  * @brief Multiplies this array with the one specified as parameter.

@@ -12,4 +12,13 @@
 
 void check_and_retain_arrays(af_array &a, af_array &b, af::array &var_a, af::array &var_b);
 
+/**
+ * @brief Check and fill error parameters with given string
+ *
+ * @param env the JNI environment.
+ * @param reason the error msg to be set.
+ * @param err the error null terminated string output.
+ */
+void check_and_fill_error(JNIEnv *env, const char *reason, jobject* err);
+
 #endif

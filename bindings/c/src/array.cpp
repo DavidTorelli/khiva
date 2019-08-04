@@ -49,12 +49,22 @@ void join(int *dim, khiva_array *first, khiva_array *second, khiva_array *result
     af_retain_array(result, r.get());
 }
 
-void khiva_add(khiva_array *lhs, khiva_array *rhs, khiva_array *result) {
-    af::array var1;
-    af::array var2;
-    check_and_retain_arrays(lhs, rhs, var1, var2);
-    af::array r = var1 + var2;
-    af_retain_array(result, r.get());
+void khiva_add(khiva_array *lhs, khiva_array *rhs, khiva_array *result, char* err, int *err_len) {
+    try {
+        if ((lhs == NULL) || (rhs == NULL) || (result == NULL)) {
+            // TODO: Write binding error log here when logger is in place
+            return;
+        } 
+        af::array var1;
+        af::array var2;
+        check_and_retain_arrays(lhs, rhs, var1, var2);
+        af::array r = var1 + var2;
+        af_retain_array(result, r.get());
+    } catch(const std::exception& stde){
+        check_and_fill_error(stde.what(), -1, err, err_len);
+    } catch(...) {
+        check_and_fill_error("Error when adding array. Unknown reason.", -2, err, err_len);
+    }
 }
 
 void khiva_mul(khiva_array *lhs, khiva_array *rhs, khiva_array *result) {

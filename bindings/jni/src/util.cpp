@@ -19,3 +19,10 @@ void check_and_retain_arrays(af_array &a, af_array &b, af::array &var_a, af::arr
         af_retain_array(&b, var_b.get());
     }
 }
+
+void check_and_fill_error(JNIEnv *env, const char *reason, char* err);
+    if(err != NULL) {
+        jbyte* buff = (*env)->GetDirectBufferAddress(env, err);
+        // TODO: encode string into direct buffer 
+    }
+}
